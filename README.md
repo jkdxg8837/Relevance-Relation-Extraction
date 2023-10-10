@@ -44,8 +44,6 @@ Unlike the open source dataset, our mini-program & content dataset has clearly d
 bash scripts/generate_topo.sh <dataset name>
 ```
 
-As this paper is conducted with the help of Ant Group, so we need to follow the rule of the open source code of Ant Group. We are positively tracking the approval process of Ant Group, and our final code will be released soon.
-
 
 ### Acknowledgements
 Thanks Wang et.al for their open source code [SimKGC](https://github.com/intfloat/SimKGC), on which our implements are based.
