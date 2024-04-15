@@ -5,11 +5,15 @@ Copyright (c) 2004-2023 All Rights Reserved.
 import networkx as nx
 from node2vec import Node2Vec
 import sys
+import os
 args = str(sys.argv)
-output_path = args[0]
+print(args)
+output_path = sys.argv[1]
 
 # Create a graph
-graph = nx.read_gpickle(output_path + '/g.pkl')
+
+print("Node2Vec processing graph from {}".format(os.path.join(output_path, 'g.pkl')))
+graph = nx.read_gpickle(os.path.join(output_path, 'g.pkl'))
 print(graph)
 
 # Precompute probabilities and generate walks - **ON WINDOWS ONLY WORKS WITH workers=1**
@@ -22,8 +26,8 @@ model = node2vec.fit(window=10, min_count=1, batch_words=4)  # Any keywords acce
 # model.wv.most_similar('2')  # Output node names are always strings
 
 # Save embeddings for later use
-
-model.wv.save_word2vec_format(output_path + '/serv2content_g_node2vec.emb')
+print("Saving emb in {}".format(os.path.join(output_path, 'serv2content_g_node2vec.emb')))
+model.wv.save_word2vec_format(os.path.join(output_path, 'serv2content_g_node2vec.emb'))
 
 # Save model for later use
 # model.save(EMBEDDING_MODEL_FILENAME)
