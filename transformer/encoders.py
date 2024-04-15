@@ -78,7 +78,31 @@ class CrossAtt(nn.Module):
         # outs = torch.cat(outs, 1)
         
         return out, encoder_mask
+class SelfAtt(nn.Module):
+    def __init__(self, N, padding_idx, d_model=768, d_k=96, d_v=96, h=8, d_ff=2048, dropout=.1,
+                 identity_map_reordering=False, attention_module=None, attention_module_kwargs=None):
+        super(SelfAtt, self).__init__()
+        self.d_model = d_model
+        self.dropout = dropout
+        self.layers = nn.ModuleList([EncoderLayer(d_model, d_k, d_v, h, d_ff, dropout,
+                                                  identity_map_reordering=identity_map_reordering,
+                                                  attention_module=attention_module,
+                                                  attention_module_kwargs=attention_module_kwargs)
+                                     for _ in range(N)])
+        self.padding_idx = padding_idx
 
+    def forward(self, input, attention_weights=None):
+        # input (b_s, seq_len, d_in)
+        attention_mask = (torch.sum(input, -1) == self.padding_idx).unsqueeze(1).unsqueeze(1)  # (b_s, 1, 1, seq_len)
+        encoder_mask = (torch.sum(input, -1) == self.padding_idx).unsqueeze(1).unsqueeze(1)  # (b_s, 1, 1, seq_len)
+        out = input
+        for l in self.layers:
+            out = l(input, input, input, attention_mask, attention_weights)
+            # outs.append(out.unsqueeze(1))
+
+        # outs = torch.cat(outs, 1)
+        
+        return out, encoder_mask
 class TransformerEncoder(MultiLevelEncoder):
     def __init__(self, N, padding_idx, d_in=2048, **kwargs):
         super(TransformerEncoder, self).__init__(N, padding_idx, **kwargs)
