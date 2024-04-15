@@ -19,11 +19,11 @@ from logger_config import logger
 entity_dict = get_entity_dict()
 topo_dict = {}
 # old is deepwalk2
-with open('./g_node2vec.emb', 'r') as f:
+with open('./data/WN18RR/g_node2vec.emb', 'r') as f:
     for line in f:
         parts = line.strip().split(' ')
         id = parts[0]
-        emb = np.array(parts[-128:]).astype(np.float)
+        emb = np.array(parts[-128:]).astype(np.float64)
         emb_tensor = torch.tensor(emb)
         topo_dict[id] = emb_tensor
 
