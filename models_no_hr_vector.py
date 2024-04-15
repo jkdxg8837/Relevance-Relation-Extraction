@@ -143,14 +143,14 @@ class CustomBertModel_Reg(nn.Module, ABC):
             
             if self.momentum_cl_learning:
                 with torch.no_grad():
-                self._momentum_update_encoder1(self.head_bert, self.momentum_head_bert)
-                neg_tail_vector = self._encode(self.momentum_head_bert,
-                                        token_ids=tail_token_ids,
-                                        mask=tail_mask,
-                                        token_type_ids=tail_token_type_ids)
-                neg_tail_vector , _= self.topo_self_att(torch.cat((neg_tail_vector, tail_topo_features), dim=1).to(head_vector.device).unsqueeze(1))
-                neg_tail_vector = neg_tail_vector.squeeze(1)
-                neg_tail_vector = nn.functional.normalize(neg_tail_vector, dim=1)
+                    self._momentum_update_encoder1(self.head_bert, self.momentum_head_bert)
+                    neg_tail_vector = self._encode(self.momentum_head_bert,
+                                            token_ids=tail_token_ids,
+                                            mask=tail_mask,
+                                            token_type_ids=tail_token_type_ids)
+                    neg_tail_vector , _= self.topo_self_att(torch.cat((neg_tail_vector, tail_topo_features), dim=1).to(head_vector.device).unsqueeze(1))
+                    neg_tail_vector = neg_tail_vector.squeeze(1)
+                    neg_tail_vector = nn.functional.normalize(neg_tail_vector, dim=1)
                     
             else:
                 neg_tail_vector = None
