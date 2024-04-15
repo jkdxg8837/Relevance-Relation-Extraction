@@ -40,13 +40,9 @@ Step 3, training the model and (optionally) specify the output directory (< 3 ho
 OUTPUT_DIR=./checkpoint/wn18rr/ bash scripts/train_wn.sh
 ```
 
-Step 4, evaluate a trained model
-```
-bash scripts/eval.sh ./checkpoint/wn18rr/model_last.mdl WN18RR
-```
 
 
-Also, there exists some triggers to control modules used in our model, located in models_no_hr_vector.py. If you don't want to use momentum learning or topology info, feel free to set FALSE to them.
+Also, there exist some triggers to control modules used in our model, located in models_no_hr_vector.py. If you don't want to use momentum learning or topology info, feel free to set FALSE to them.
 
 
 ### Acknowledgements
