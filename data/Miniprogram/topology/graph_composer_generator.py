@@ -5,14 +5,16 @@ Copyright (c) 2004-2023 All Rights Reserved.
 import networkx as nx
 import numpy as np
 import csv
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
 args = str(sys.argv)
-train_path = args[0]
-test_path = args[1]
-output_dir = args[2]
+print(args)
+train_path = sys.argv[1]
+test_path = sys.argv[2]
+output_dir = sys.argv[3]
 
 
 relation_data = []
@@ -72,23 +74,24 @@ print(g)
 g.remove_edges_from(test_relations)
 print('After removing test:', g)
 
-nx.write_gpickle(g, '../data/g.pkl')
-nx.write_adjlist(g, '../data/g.adjlist')
-print("Wrting done!")
+nx.write_gpickle(g, os.path.join(output_dir, "g.pkl"))
+nx.write_adjlist(g, os.path.join(output_dir, "g.adjlist"))
+print("Writing done!")
 # print(graph)
 
-pos = nx.spring_layout(g)
-# print('hi')
-nx.draw_networkx(g, pos, nodelist=[node for node, nattr in g.nodes.items() if nattr['node_type'] == 'service'],
-                 color='orange', alpha=.5, with_labels=False)
-# nx.draw_networkx(g, pos, nodelist=[node for node, nattr in g.nodes.items() if nattr['node_type'] == 'content'],
-#                  color='purple', alpha=.5, with_labels=False)
-# print('hiii')
-#
-nx.draw_networkx()
-plt.show()
-plt.savefig('adj.png')
-#
-#
-print(g)
+# pos = nx.spring_layout(g)
+# Visualization code, slow
+# print("Drawing visualization") 
+# nx.draw_networkx(g, pos, nodelist=[node for node, nattr in g.nodes.items() if nattr['node_type'] == 'service'],
+#                  color='orange', alpha=.5, with_labels=False)
+# # nx.draw_networkx(g, pos, nodelist=[node for node, nattr in g.nodes.items() if nattr['node_type'] == 'content'],
+# #                  color='purple', alpha=.5, with_labels=False)
+
+# #
+# nx.draw_networkx()
+# plt.show()
+# plt.savefig('adj.png')
+# #
+# #
+# print(g)
 
