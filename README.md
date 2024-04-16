@@ -1,51 +1,56 @@
-## Relevance-Relation-Extraction
-This is an implementation code for "RRE: A relevance relation extraction framework for cross-domain recommender system at Alipay".
-In this paper, we study the relationship between the head and tail entities in the knowledge graph. As a result, we propose a new downstream task called Relation Relevance Extraction(RRE) accompanied by a human-annotated dataset in a real-world Alipay scenario. What's more, we use this score in the downstream recommendation task to prove it can mitigate popularity bias in item-centric and user-centric tasks.
-We use SimKGC as our baseline. Despite the topology generating and fusing module, the rest of our model follows a plug-in style, which indicates you can construct dataset and run the code by following the instruction provided by SimKGC.
+# RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay
 
-## Requirements
-* python>=3.7
-* torch>=1.6 (for mixed precision training)
-* transformers>=4.15
+This is a reference code for research paper "RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay" accepted by ICME 2024. 
 
-All experiments are run with 1 V100(32GB) GPUs.
+> Jiayang Gu, [Xovee Xu](https://www.xoveexu.com), Yulu Tian, Yurun Hu, Jiadong Huang, Wenliang Zhong, Fan Zhou, Lianli Gao  
+> RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay  
+> IEEE International Conference on Multimedia and Expo (ICME), Niagra Falls, Canada, July 15-19, 2024
+
 
 ## How to Run
 
-It involves 3 steps: dataset preprocessing, model training, and model evaluation.
+### Requirement
+
+- `python>=3.7`
+- `torch>=1.6`
+- `transformers>=4.15`
+- `node2vec`
 
 
-For WN18RR and FB15k237 datasets, we use files from [KG-BERT](https://github.com/yao8839836/kg-bert) and [SimKGC/data/WN18RR](https://github.com/intfloat/SimKGC/tree/main/data/WN18RR)
+### Running
 
-### WN18RR dataset
+The running or our code involves 3 steps: (1) data processing; (2) model training; and (3) evaluation. 
 
-Step 1, preprocess the dataset
-```
-bash scripts/preprocess.sh WN18RR
-```
+The predictions of our models are in [predictions](predictions/) directory. The WN18RR and FB15k-237 datasets are from the [KG-BERT](https://github.com/yao8839836/kg-bert) repo. 
 
+Take WN18RR as an example:
 
-Step 2, generate topology info
-
-Unlike the open source dataset, our mini-program & content dataset has clearly defined the level of strength of relevance. So in the topology generation of our dataset, we connect edges except for "no correlation". As for open source datasets, take WN18RR as an example, we measure the semantic meaning of the corresponding 13 relation types, then decides the directions of the edge.
-```
-pip install networkx
-pip install node2vec
-bash scripts/generate_topo.sh
-```
+- **Step 1**: Data preprocessing  
+`bash scripts/preprocess.sh WN18RR`
+- **Step 2**: Generate topological information  
+Unlike the open source dataset, our mini-program & content dataset has clearly defined the level of strength of relevance. So in the topology generation of our dataset, we connect edges except for "no correlation". As for open source datasets, take WN18RR as an example, we measure the semantic meaning of the corresponding 13 relation types, then decides the directions of the edge.  
+`bash scripts/generate_topo.sh`  
 By replacing the right path of your train.txt and test.txt of WN18RR, you can get an embedding file under output path.
+- **Step 3**: Model training (<3 hours)  
+`OUTPUT_DIR=./checkpoint/wn18rr/ bash scripts/train_wn.sh`
+- **Step 4**: Evaluation (on a trained model)  
+`bash scripts/eval.sh ./checkpoint/wn18rr/model_last.mdl WN18RR`
 
-Step 3, training the model and (optionally) specify the output directory (< 3 hours), and replace the g_node2vec.emb path with the right path corresponding to your current dataset.
+Also, there exist some triggers to control modules used in our model, located in `models_no_hr_vector.py`. If you don't want to use momentum learning or topology info, feel free to set `FALSE` to them.
+
+## Citation
+
+```bibtex
+@inproceedings{gu2024rre,
+  title = {RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay}
+  author = {Jiayang Gu and Xovee Xu and Yulu Tian and Yurun Hu and Jiadong Huang and Wenliang Zhong and Fan Zhou and Lianli Gao}, 
+  booktitle = {IEEE International Conference on Multimedia and Expo}, 
+  year = {2024}, 
+  address = {Niagra Falls, Canada}, 
+  publisher = {IEEE}
+}
 ```
-OUTPUT_DIR=./checkpoint/wn18rr/ bash scripts/train_wn.sh
-```
 
+## Acknowledgements
 
-
-Also, there exist some triggers to control modules used in our model, located in models_no_hr_vector.py. If you don't want to use momentum learning or topology info, feel free to set FALSE to them.
-
-
-### Acknowledgements
-Thanks Wang et.al for their open source code [SimKGC](https://github.com/intfloat/SimKGC), on which our implements are based.
-<!-- Alipay.com Inc.
-Copyright (c) 2004-2023 All Rights Reserved. -->
+We would like to thank Wang et al. for their open source code [SimKGC](https://github.com/intfloat/SimKGC), on which our implements are based.
