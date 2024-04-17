@@ -150,7 +150,7 @@ def compute_relation_metrics(
     
     target_labels = torch.LongTensor(target_labels).unsqueeze(-1).to(head_tensor.device)
     target_scores = torch.FloatTensor(target_scores).unsqueeze(-1).to(head_tensor.device)
-    reg_scores = reg_logits
+    reg_scores = torch.cat(reg_logits, dim=0)
     
     batch_target = []
     example_size = len(examples)
