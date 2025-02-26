@@ -1,10 +1,10 @@
 # RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay
 
-This is a reference code for research paper "RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay" accepted by ICME 2024. 
+This is a reference code for the following paper presented at IEEE ICME 2024. 
 
-> Jiayang Gu, [Xovee Xu](https://www.xoveexu.com), Yulu Tian, Yurun Hu, Jiadong Huang, Wenliang Zhong, Fan Zhou, Lianli Gao  
+> Jiayang Gu, Xovee Xu, Yulu Tian, Yurun Hu, Jiadong Huang, Wenliang Zhong, Fan Zhou, Lianli Gao  
 > RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay  
-> IEEE International Conference on Multimedia and Expo (ICME), Niagra Falls, Canada, July 15-19, 2024
+> IEEE International Conference on Multimedia and Expo (ICME), Niagara Falls, Canada, July 15-19, 2024, 1-6.
 
 
 ## How to Run
@@ -45,12 +45,13 @@ Also, there exist some triggers to control modules used in our model, located in
   title = {RRE: A Relevance Relation Extraction Framework for Cross-Domain Recommender System at Alipay}
   author = {Jiayang Gu and Xovee Xu and Yulu Tian and Yurun Hu and Jiadong Huang and Wenliang Zhong and Fan Zhou and Lianli Gao}, 
   booktitle = {IEEE International Conference on Multimedia and Expo}, 
-  year = {2024}, 
-  address = {Niagra Falls, Canada}, 
+  year = {2024},
+  pages = {1--6},
+  address = {Niagara Falls, Canada}, 
   publisher = {IEEE}
 }
 ```
 
 ## Acknowledgements
 
-We would like to thank Wang et al. for their open source code [SimKGC](https://github.com/intfloat/SimKGC), on which our implements are based.
+We would like to thank Wang et al. for their open source code [SimKGC](https://github.com/intfloat/SimKGC), on which our implements are based. We would also like to thank ICME '24 Program Committee members for selecting our paper as one of the fifteen Best Paper Candidates.
